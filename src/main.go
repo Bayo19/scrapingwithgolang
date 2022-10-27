@@ -60,7 +60,9 @@ func scrapeJisho(level int) {
 			on:        kanji_on,
 			level:     kanji_level,
 		}
-		all_kanji = append(all_kanji, kanji_obj)
+		if !contains(all_kanji, kanji_char) {
+			all_kanji = append(all_kanji, kanji_obj)
+		}
 	})
 
 	c.OnHTML("a.more", func(e *colly.HTMLElement) {
@@ -73,4 +75,13 @@ func scrapeJisho(level int) {
 	})
 
 	c.Visit(urlToVisit)
+}
+
+func contains(s []kanji, str string) bool {
+	for _, value := range s {
+		if value.character == str {
+			return true
+		}
+	}
+	return false
 }
